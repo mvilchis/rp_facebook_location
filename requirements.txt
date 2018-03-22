@@ -1,4 +1,6 @@
+beautifulsoup4
 requests
+configparser
 webargs==1.8.1
 Flask==0.12.2
 Flask-Script==2.0.6

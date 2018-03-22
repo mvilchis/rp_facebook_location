@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from threading import Thread
 
 from utils import *
 from webargs import fields
@@ -14,13 +15,17 @@ location_args = {
 }
 
 
+def create_thread(urn, text):
+    thread = Thread(target = send_location, args=(urn,text))
+    thread.start()
+    return
 #############################################################
 #                      Endpoints                            #
 #############################################################
 @app.route("/", methods=['POST', 'GET'])
 @use_kwargs(location_args)
 def view_send_news(urn, text):
-    send_location(urn, text)
+    create_thread(urn,text)
     return jsonify({"ok": "ok"})
 
 
