@@ -1,7 +1,8 @@
 import os
 
 ################ Facebook environment variables ################
-FACEBOOK_TOKEN = os.getenv("FACEBOOK_TOKEN", "")
+FACEBOOK_TOKEN_1 = os.getenv("FACEBOOK_TOKEN_1", "")
+FACEBOOK_TOKEN_2 = os.getenv("FACEBOOK_TOKEN_2", "")
 FACEBOOK_URL = "https://graph.facebook.com/v2.6/me/messages"
 
 ########################## Google urls ########################

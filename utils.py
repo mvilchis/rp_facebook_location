@@ -30,7 +30,14 @@ def send_location(recipient_id, text):
     }
     r = requests.post(
         FACEBOOK_URL,
-        params={"access_token": FACEBOOK_TOKEN},
+        params={"access_token": FACEBOOK_TOKEN_1},
+        data=json.dumps(payload),
+        headers={
+            'Content-type': 'application/json'
+        })
+    r = requests.post(
+        FACEBOOK_URL,
+        params={"access_token": FACEBOOK_TOKEN_2},
         data=json.dumps(payload),
         headers={
             'Content-type': 'application/json'
