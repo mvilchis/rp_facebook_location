@@ -13,7 +13,9 @@ location_args = {
     'urn': fields.String(required=True),
     'text': fields.String(required=True)
 }
-
+parse_args = { 
+    'location': fields.String(required=True)
+}
 
 def create_thread(urn, text):
     thread = Thread(target = send_location, args=(urn,text))
@@ -27,6 +29,11 @@ def create_thread(urn, text):
 def view_send_news(urn, text):
     create_thread(urn,text)
     return jsonify({"ok": "ok"})
+
+@app.route("/parse", methods=['GET'])
+@use_kwargs(parse_args)
+def view_parse_location(location):
+    return jsonify(parse_response(location))
 
 
 if __name__ == "__main__":
