@@ -1,7 +1,7 @@
 import configparser
 import json
 import re
-import urllib2
+from urllib.request import unquote 
 
 import requests
 from bs4 import BeautifulSoup
@@ -54,7 +54,7 @@ def parse_response(text):
     is_url = 'https://l.facebook.com' in text
     if is_url:
         #Now parse url,
-        text = urllib2.unquote(text)
+        text = unquote(text)
         lat_lon = text.split("where1=")[1].split("&")[0].replace("%2C+", "%")
         lat = lat_lon.split("%")[0]
         lon = lat_lon.split("%")[-1]
