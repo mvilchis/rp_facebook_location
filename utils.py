@@ -42,6 +42,13 @@ def send_location(recipient_id, text):
         headers={
             'Content-type': 'application/json'
         })
+    r = requests.post(
+        FACEBOOK_URL,
+        params={"access_token": FACEBOOK_TOKEN_3},
+        data=json.dumps(payload),
+        headers={
+            'Content-type': 'application/json'
+        })
 
 
 def aux_parse_url_to_text(text):
