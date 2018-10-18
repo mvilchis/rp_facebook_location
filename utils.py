@@ -1,6 +1,7 @@
 import configparser
 import json
 import re
+import ast
 from urllib.request import unquote 
 
 import requests
@@ -72,6 +73,11 @@ def parse_response(text):
         lat_lon = text.split("where1=")[1].split("&")[0].replace("%2C+", "%")
         lat = lat_lon.split("%")[0]
         lon = lat_lon.split("%")[-1]
+    else:
+        try:
+            lat, lon = ast.literal_eval(text)
+        except:
+            return {"edo": "", "mun": ""}
         try:
             lat = float(lat)
             lon = float(lon)
