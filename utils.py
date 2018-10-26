@@ -173,7 +173,9 @@ def get_bansefi_reference(text):
         text = unquote(text)
         lat_lon = text.split("where1=")[1].split("&")[0].replace("%2C+", "%")
         lat = lat_lon.split("%")[0]
+        lat = float(lat)
         lon = lat_lon.split("%")[-1]
+        lon = float(lon)
     else:
         try:
             lat, lon = ast.literal_eval(text)
@@ -191,13 +193,15 @@ def get_bansefi_reference(text):
     result_json = r.json()
 
     day = datetime.now().weekday()
+    print (full_url)
     if len(result_json["result"]["opening_hours"]["weekday_text"]) > day:
         h_string = str(result_json["result"]["opening_hours"]["weekday_text"][day])
         h_string = ':'.join(h_string.split(':')[1:]).replace("\u2013","-")
     else:
-        h_string = "El dia de hoy no se encuentra abierto" 
+        h_string = "El dia de hoy no se encuentra abierto"
+    phone = result_json['result']['formatted_phone_number']if 'formatted_phone_number' in result_json['result'] else ''
     return {"direccion": aux_parse_url_to_text(result_json['result']['formatted_address']),
-            "telefono" : result_json['result']['formatted_phone_number'],
+            "telefono" : phone,
             "horario"  : h_string
             }
 
