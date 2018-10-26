@@ -3,7 +3,6 @@ import configparser
 import json
 import re
 import sys
-import locale
 import calendar
 from math import atan2, cos, radians, sin, sqrt
 from urllib.request import unquote
@@ -18,7 +17,6 @@ from Constants import *
 config = configparser.ConfigParser()
 config.read('keys.ini')
 google_tokens = [config["google"][k] for k in config["google"].keys()]
-locale.setlocale(locale.LC_ALL, 'es_MX.utf8')
 
 key_id = 0
 
@@ -193,9 +191,11 @@ def get_bansefi_reference(text):
     result_json = r.json()
 
     day = datetime.now().weekday()
-    h_string = str(result_json["result"]["opening_hours"]["weekday_text"][day])
-    h_string = ':'.join(h_string.split(':')[1:])
-    h_string = list(calendar.day_name)[day] +':'+ h_string.replace("\u2013","-")
+    if len(result_json["result"]["opening_hours"]["weekday_text"]) > day:
+        h_string = str(result_json["result"]["opening_hours"]["weekday_text"][day])
+        h_string = ':'.join(h_string.split(':')[1:]).replace("\u2013","-")
+    else:
+        h_string = "El dia de hoy no se encuentra abierto" 
     return {"direccion": aux_parse_url_to_text(result_json['result']['formatted_address']),
             "telefono" : result_json['result']['formatted_phone_number'],
             "horario"  : h_string
