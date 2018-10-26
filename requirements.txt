@@ -4,3 +4,4 @@ configparser
 webargs==1.8.1
 Flask
 Flask-Script==2.0.6
+fbmq

@@ -13,20 +13,32 @@ location_args = {
     'urn': fields.String(required=True),
     'text': fields.String(required=True)
 }
-parse_args = { 
+parse_args = {
     'location': fields.String(required=True)
 }
 
-def create_thread(urn, text):
+bansefi_args = {
+    'location': fields.String(required=True)
+}
+campaign_args = {
+    'urn': fields.String(required=True),
+}
+def create_thread_location(urn, text):
     thread = Thread(target = send_location, args=(urn,text))
     thread.start()
     return
+
+def create_thread_campaign(urn):
+    thread = Thread(target = send_active_resources, args=(urn,))
+    thread.start()
+    return
+
 #############################################################
 #                      Endpoints                            #
 #############################################################
 @app.route("/", methods=['POST', 'GET'])
 @use_kwargs(location_args)
-def view_send_news(urn, text):
+def view_send_location(urn, text):
     create_thread(urn,text)
     return jsonify({"ok": "ok"})
 
@@ -34,6 +46,19 @@ def view_send_news(urn, text):
 @use_kwargs(parse_args)
 def view_parse_location(location):
     return jsonify(parse_response(location))
+
+@app.route("/bansefi", methods=['POST', 'GET'])
+@use_kwargs(bansefi_args)
+def view_bansefi_reference(location):
+    nearest_bansefi = get_bansefi_reference(location)
+    return jsonify(nearest_bansefi)
+
+
+@app.route("/campaign_prospera", methods=['POST', 'GET'])
+@use_kwargs(campaign_args)
+def view_campaign_prospera(urn):
+    create_thread_campaign(urn)
+    return jsonify({"ok": "ok"})
 
 
 if __name__ == "__main__":
