@@ -193,7 +193,6 @@ def get_bansefi_reference(text):
     result_json = r.json()
 
     day = datetime.now().weekday()
-    print (full_url)
     if len(result_json["result"]["opening_hours"]["weekday_text"]) > day:
         h_string = str(result_json["result"]["opening_hours"]["weekday_text"][day])
         h_string = ':'.join(h_string.split(':')[1:]).replace("\u2013","-")
