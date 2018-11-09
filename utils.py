@@ -165,6 +165,25 @@ def get_nearest_bansefi_bank(point_a):
     if min_distance != sys.maxsize:
         return {LAT_IDX: min_point[LAT_IDX], LON_IDX: min_point[LON_IDX], PLACE_ID: min_place_id, 'distance': min_distance}
 
+def get_lat_lon(text):
+    global key_id
+    is_url = 'https://l.facebook.com' in text
+    if is_url:
+        #Now parse url,
+        text = unquote(text)
+        lat_lon = text.split("where1=")[1].split("&")[0].replace("%2C+", "%")
+        lat = lat_lon.split("%")[0]
+        lat = float(lat)
+        lon = lat_lon.split("%")[-1]
+        lon = float(lon)
+    else:
+        try:
+            lat, lon = ast.literal_eval(text)
+        except:
+            return {LAT_IDX: "", LON_IDX:""}
+    return {LAT_IDX: lat, LON_IDX:lon}
+
+
 def get_bansefi_reference(text):
     global key_id
     is_url = 'https://l.facebook.com' in text

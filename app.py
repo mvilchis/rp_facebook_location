@@ -60,6 +60,12 @@ def view_campaign_prospera(urn):
     create_thread_campaign(urn)
     return jsonify({"ok": "ok"})
 
+@app.route("/parse_fb_loc", methods=['POST', 'GET'])
+@use_kwargs(bansefi_args)
+def view_parse_fb_loc(location):
+    lat_lon = get_lat_lon(location)
+    return jsonify(lat_lon)
+
 
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
